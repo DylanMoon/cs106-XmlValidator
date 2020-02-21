@@ -32,7 +32,7 @@ public class BasicXmlValidator implements XmlValidator {
 						error.add(substringBefore(tempTag, " "));
 						error.add(Integer.toString(getLine(xmlDocument, m.start())));
 						error.add(attributeName);
-						error.add(Integer.toString(getLine(xmlDocument, m.start())));
+						error.add(Integer.toString(getLine(xmlDocument, m.end())));
 						return error;
 					}
 					tempTag = substringBetween(tempTag, "", " ");// clean up the tag
