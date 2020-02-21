@@ -9,9 +9,6 @@ import java.util.regex.*;
 
 public class BasicXmlValidator implements XmlValidator {
 
-	// original pattern.compile("<[^!?][^>][^/>]+>");
-	// "<[/]?[^?][^!].*?[^/]>"
-	// "</?[^?].*?[^/]>"
 	@Override
 	public List<String> validate(String xmlDocument) {// xmlDocument is the whole file as a single string
 		BasicXmlTagStack bxts = new BasicXmlTagStack();// create xmlTagStack
