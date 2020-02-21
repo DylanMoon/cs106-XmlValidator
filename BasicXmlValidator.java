@@ -11,48 +11,64 @@ public class BasicXmlValidator implements XmlValidator {
 
 	@Override
 	public List<String> validate(String xmlDocument) {// xmlDocument is the whole file as a single string
-		BasicXmlTagStack bxts = new BasicXmlTagStack();// create xmlTagStack
+		BasicXmlTagStack tagStack = new BasicXmlTagStack();// create xmlTagStack
 		ArrayList<String> error = new ArrayList();// create error ArrayList
-		var pattern = Pattern.compile("(</?)(.*?)([^/]>)");
-		var matcher = pattern.matcher(xmlDocument);
-		while (matcher.find()) {
-			String tempTag = matcher.group().replaceAll("[<>]", "");
-			if (tempTag.startsWith("?") || tempTag.startsWith("!")) {
+
+		var p = Pattern.compile("(</?)(.*?)([^/]>)");
+		var m = p.matcher(xmlDocument);
+
+		while (m.find()) {
+			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match
+
+			if (tempTag.startsWith("?") || tempTag.startsWith("!")) {// ignore ! and ? tags
 				continue;
 			}
-			if (tempTag.contains(" ")) {
-				tempTag = substringBetween(tempTag, "", " ");// cleaning up the tags
-			}
-			if (!tempTag.startsWith("/")) {
-				bxts.push(new XmlTag(tempTag, matcher.start()));// opening tag, push to stack
+			if (!tempTag.startsWith("/")) {// tempTags is a valid opening tag
+				if (tempTag.contains("=")) {
+					// String attributeName = substringBetween(tempTag, " ", "=");
+					// String attribute = substringAfter(tempTag, "=");
+					// if (!attribute.startsWith("\"")) {// attribute does not start with quotes
+					//
+					// error.add("Attribute not quoted");
+					// error.add(substringBefore(tempTag, " "));
+					// error.add(Integer.toString(getLine(xmlDocument, m.start())));
+					// error.add(attributeName);
+					// error.add(Integer.toString(getLine(xmlDocument, m.start())));
+					// return error;
+					// }
+
+					tempTag = substringBetween(tempTag, "", " ");// clean up the tag
+				}
+				tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
 				continue;
 			} else {
 				tempTag = tempTag.replaceAll("/", "");
-				if (bxts.getCount() == 0) {// found closing tag but stack is empty
+				if (tagStack.getCount() == 0) {// found closing tag but stack is empty
+
 					error.add("Orphan closing tag");
 					error.add(tempTag);
-					error.add(Integer.toString(getLine(xmlDocument, matcher.start())));
+					error.add(Integer.toString(getLine(xmlDocument, m.start())));
 					return error;
-				}
-				if (bxts.peek(0).name.equals(tempTag)) {// tag is correctly closed, pop stack and continue
-					bxts.pop();
+				} else if (tagStack.peek(0).name.equals(tempTag)) {// tag is correctly closed, pop stack and continue
+					tagStack.pop();
 					continue;
-				}
-				if (!bxts.peek(0).name.equals(tempTag)) {// tag mismatch
+				} else if (!tagStack.peek(0).name.equals(tempTag)) {// tag mismatch
+
 					error.add("Tag mismatch");
-					error.add(bxts.peek(0).name);
-					error.add(Integer.toString(getLine(xmlDocument, bxts.peek(0).index)));
+					error.add(tagStack.peek(0).name);
+					error.add(Integer.toString(getLine(xmlDocument, tagStack.peek(0).index)));
 					error.add(tempTag);
-					error.add(Integer.toString(getLine(xmlDocument, matcher.start())));
+					error.add(Integer.toString(getLine(xmlDocument, m.start())));
 					return error;
 				}
 
 			}
 		}
-		if (bxts.getCount() > 0) {// reached end of document, stack is not empty
+		if (tagStack.getCount() > 0) {// reached end of document, stack is not empty
+
 			error.add("Unclosed tag at end");
-			error.add(bxts.peek(0).name);
-			error.add(Integer.toString(getLine(xmlDocument, bxts.peek(0).index)));
+			error.add(tagStack.peek(0).name);
+			error.add(Integer.toString(getLine(xmlDocument, tagStack.peek(0).index)));
 			return error;
 		}
 		return null;// if no errors found
