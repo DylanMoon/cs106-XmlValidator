@@ -25,18 +25,16 @@ public class BasicXmlValidator implements XmlValidator {
 			}
 			if (!tempTag.startsWith("/")) {// tempTags is a valid opening tag
 				if (tempTag.contains("=")) {
-					// String attributeName = substringBetween(tempTag, " ", "=");
-					// String attribute = substringAfter(tempTag, "=");
-					// if (!attribute.startsWith("\"")) {// attribute does not start with quotes
-					//
-					// error.add("Attribute not quoted");
-					// error.add(substringBefore(tempTag, " "));
-					// error.add(Integer.toString(getLine(xmlDocument, m.start())));
-					// error.add(attributeName);
-					// error.add(Integer.toString(getLine(xmlDocument, m.start())));
-					// return error;
-					// }
-
+					String attributeName = substringBetween(tempTag, " ", "=");
+					String attribute = substringAfter(tempTag, "=");
+					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
+						error.add("Attribute not quoted");
+						error.add(substringBefore(tempTag, " "));
+						error.add(Integer.toString(getLine(xmlDocument, m.start())));
+						error.add(attributeName);
+						error.add(Integer.toString(getLine(xmlDocument, m.start())));
+						return error;
+					}
 					tempTag = substringBetween(tempTag, "", " ");// clean up the tag
 				}
 				tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
@@ -49,19 +47,18 @@ public class BasicXmlValidator implements XmlValidator {
 					error.add(tempTag);
 					error.add(Integer.toString(getLine(xmlDocument, m.start())));
 					return error;
-				} else if (tagStack.peek(0).name.equals(tempTag)) {// tag is correctly closed, pop stack and continue
+				}
+				if (tagStack.peek(0).name.equals(tempTag)) {// tag is correctly closed, pop stack and continue
 					tagStack.pop();
 					continue;
-				} else if (!tagStack.peek(0).name.equals(tempTag)) {// tag mismatch
-
-					error.add("Tag mismatch");
-					error.add(tagStack.peek(0).name);
-					error.add(Integer.toString(getLine(xmlDocument, tagStack.peek(0).index)));
-					error.add(tempTag);
-					error.add(Integer.toString(getLine(xmlDocument, m.start())));
-					return error;
 				}
-
+				// tag mismatch
+				error.add("Tag mismatch");
+				error.add(tagStack.peek(0).name);
+				error.add(Integer.toString(getLine(xmlDocument, tagStack.peek(0).index)));
+				error.add(tempTag);
+				error.add(Integer.toString(getLine(xmlDocument, m.start())));
+				return error;
 			}
 		}
 		if (tagStack.getCount() > 0) {// reached end of document, stack is not empty
@@ -80,5 +77,4 @@ public class BasicXmlValidator implements XmlValidator {
 		int count = countMatches(sub, "\n");
 		return count + 1;
 	}
-
 }
