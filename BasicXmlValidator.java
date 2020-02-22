@@ -13,7 +13,7 @@ public class BasicXmlValidator implements XmlValidator {
 	public List<String> validate(String xmlDocument) {// xmlDocument is the whole file as a single string
 		BasicXmlTagStack tagStack = new BasicXmlTagStack();// create xmlTagStack
 		ArrayList<String> error = new ArrayList();// create error ArrayList
-		var p = Pattern.compile("(</?)[a-zA-Z0-9\". =#/]*?[^/>]>");
+		var p = Pattern.compile("(</?)[a-zA-Z0-9\". =#/]*?[^/]>");
 		var m = p.matcher(xmlDocument);
 		while (m.find()) {
 			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match and remove <>
