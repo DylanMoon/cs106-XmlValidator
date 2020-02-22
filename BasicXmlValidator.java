@@ -19,7 +19,6 @@ public class BasicXmlValidator implements XmlValidator {
 
 		while (m.find()) {
 			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match
-
 			if (tempTag.startsWith("?") || tempTag.startsWith("!")) {// ignore ! and ? tags
 				continue;
 			}
@@ -28,6 +27,7 @@ public class BasicXmlValidator implements XmlValidator {
 					String attributeName = substringBetween(tempTag, " ", "=");
 					String attribute = substringAfter(tempTag, "=");
 					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
+
 						error.add("Attribute not quoted");
 						error.add(substringBefore(tempTag, " "));
 						error.add(Integer.toString(getLine(xmlDocument, m.start())));
