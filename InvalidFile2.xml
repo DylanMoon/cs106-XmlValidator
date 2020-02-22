@@ -1,21 +1,145 @@
-<x>
-<y>
-</x>
-<x>
-<y>
-</x>
-<x>
-<y>
-</x>
-<x>
-<y>
-</x>
-<x>
-<y>
-</x>
-<x>
-<y>
-</x>
-<x>
-<y>
-</x>
+<?xml version="1.0" encoding="UTF-8"?>
+<rootTag>
+    
+    <!--  This is a comment -->
+    <level1 Version="primaryID">
+        <level2 default="dark">
+            <level3 name="dark">
+                <level4 pattern="file.dat">
+                    <level5 value="503">Tag Content</level5>
+                    <level5 outfile="primaryID">Tag Content</level5>
+                    <level5 name="503">Tag Content</level5>
+                </level4>
+            </level3>
+            <level3 Version="dark">
+                <level4 color="file.dat">
+                    <level5 color="1.0">Tag Content</level5>
+                </level4>
+                <level4 default="#FFFFFF">
+                    <level5 color="primaryID">Tag Content</level5>
+                    <level5 outfile="#FFFFFF">Tag Content</level5>
+                </level4>
+                <level4 Version="tagName">
+                    <level5 property="tagName">Tag Content</level5>
+                </level4>
+            </level3>
+        </level2>
+        <level2 name="tagName">
+            <level3 outfile="primaryID">
+                <level4 color="1.0">
+                    <level5 name="#FFFFFF">Tag Content</level5>
+                    <level5 outfile="#FFFFFF">Tag Content</level5>
+                </level4>
+                <level4 Version="tagName">
+                    <level5 pattern="#FFFFFF">Tag Content</level5>
+                    <level5 default="primaryID">Tag Content</level5>
+                    <level5 value="tagName">Tag Content</level5>
+                </level4>
+            </level3>
+            <level3 name="1.0">
+                <level4 color="dd/mm/yyyy">
+                    <level5 color="file.dat">Tag Content</level5>
+                    <level5 outfile="primaryID">Tag Content</level5>
+                    <level5 color="#FFFFFF">Tag Content</level5>
+                </level4>
+            </level3>
+        </level2>
+        <level2 outfile="dark">
+            <level3 name="503">
+                <level4 property="#FFFFFF">
+                    <level5 color="tagName">Tag Content</level5>
+                    <level5 value="503">Tag Content</level5>
+                </level4>
+                <level4 value="file.dat">
+                    <level5 pattern="503">Tag Content</level5>
+                    <level5 value="file.dat">Tag Content</level5>
+                    <level5 name="tagName">Tag Content</level5>
+                </level4>
+            </level3>
+        </level2>
+    </level1>
+    
+    <!--  This is a comment -->
+    <level1 pattern="dark">
+        <level2 color="dd/mm/yyyy">
+            <level3 outfile="file.dat">
+                <level4 value="#FFFFFF">
+                    <level5 default="primaryID">Tag Content</level5>
+                    <level5 Version="503">Tag Content</level5>
+                    <level5 property="503">Tag Content</level5>
+                </level4>
+                <level4 color="503">
+                    <level5 Version="dd/mm/yyyy">Tag Content</level5>
+                    <level5 color="#FFFFFF">Tag Content</level5>
+                </level4>
+                <level4 outfile="503">
+                    <level5 color="1.0">Tag Content</level5>
+                    <level5 default="dark">Tag Content</level5>
+                    <level5 property="dd/mm/yyyy">Tag Content</level5>
+                </level4>
+            </level3>
+            <level3 Version="503">
+                <level4 color="#FFFFFF">
+                    <level5 default="primaryID">Tag Content</level5>
+                </level4>
+            </level3>
+            <level3 default="503">
+                <level4 property="1.0">
+                    <level5 value="1.0">Tag Content</level5>
+                    <level5 color="dd/mm/yyyy">Tag Content</level5>
+                    <level5 name="dark">Tag Content</level5>
+                </level4>
+                <level4 outfile="file.dat">
+                    <level5 value="primaryID">Tag Content</level5>
+                </level4>
+            </level3>
+        </level2>
+        <level2 color="primaryID">
+            <level3 default="primaryID">
+                <level4 name="#FFFFFF">
+                    <level5 default="dd/mm/yyyy">Tag Content</level5>
+                </level4>
+                <level4 value="dark">
+                    <level5 outfile="tagName">Tag Content</level5>
+                    <level5 color="dark">Tag Content</level5>
+                    <level5 property="file.dat">Tag Content</level5>
+                </level4>
+                <level4 value="dd/mm/yyyy">
+                    <level5 property="1.0">Tag Content</level5>
+                    <level5 default="#FFFFFF">Tag Content</level5>
+                    <level5 name="#FFFFFF">Tag Content</level5>
+                </level4>
+            </level3>
+            <level3 value="#FFFFFF">
+                <level4 name="#FFFFFF">
+                    <level5 value="tagName">Tag Content</level5>
+                    <level5 pattern="dd/mm/yyyy">Tag Content</level5>
+                </level4>
+                <level4 default="file.dat">
+                    <level5 pattern="primaryID">Tag Content</level5>
+                    <level5 outfile="dark">Tag Content</level5>
+                    <level5 name="file.dat">Tag Content</level5>
+                </level4>
+            </level3>
+        </level2>
+        <level2 Version="tagName">
+            <level3 property="dd/mm/yyyy">
+                <level4 default="primaryID">
+                    <level5 outfile="dark">Tag Content</level5>
+                    <level5 outfile="dark">Tag Content</level5>
+                    <level5 value="file.dat">Tag Content</level5>
+                </level4>
+            </level3>
+            <level3 color="#FFFFFF">
+                <level4 default="dd/mm/yyyy">
+                    <level5 Version="file.dat">Tag Content</level5>
+                    <level5 outfile="primaryID">Tag Content</level5>
+                    <level5 outfile="503">Tag Content</level5>
+                </level4>
+                <level4 name="#FFFFFF">
+                    <level5 color="dark">Tag Content</level5>
+                </level4>
+            </level3>
+        </level2>
+    </level1>
+</rootTag>

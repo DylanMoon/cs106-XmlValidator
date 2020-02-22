@@ -13,15 +13,10 @@ public class BasicXmlValidator implements XmlValidator {
 	public List<String> validate(String xmlDocument) {// xmlDocument is the whole file as a single string
 		BasicXmlTagStack tagStack = new BasicXmlTagStack();// create xmlTagStack
 		ArrayList<String> error = new ArrayList();// create error ArrayList
-
-		var p = Pattern.compile("(</?)(.*?)([^/]>)");
+		var p = Pattern.compile("(</?)[a-zA-Z0-9\". =#/]*?[^/>]>");
 		var m = p.matcher(xmlDocument);
-
 		while (m.find()) {
 			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match
-			if (tempTag.startsWith("?") || tempTag.startsWith("!")) {// ignore ! and ? tags
-				continue;
-			}
 			if (!tempTag.startsWith("/")) {// tempTags is a valid opening tag
 				if (tempTag.contains("=")) {
 					String attributeName = substringBetween(tempTag, " ", "=");
