@@ -18,7 +18,7 @@ public class BasicXmlValidator implements XmlValidator {
 		while (m.find()) {
 			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match and remove <>
 			if (tempTag.startsWith("/")) {// tempTags is a closing tag
-				tempTag = tempTag.replaceAll("/", "");
+				tempTag = tempTag.replaceFirst("/", "");
 				if (tagStack.getCount() == 0) {// stack is empty "Orphan"
 
 					error.add("Orphan closing tag");
@@ -68,8 +68,6 @@ public class BasicXmlValidator implements XmlValidator {
 
 
 	private int getLine(String xml, int index) {
-		String sub = xml.substring(0, index);
-		int count = countMatches(sub, "\n");
-		return count + 1;
+		return countMatches(xml.substring(0, index), "\n") + 1;
 	}
 }
