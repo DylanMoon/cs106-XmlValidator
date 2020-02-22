@@ -20,7 +20,6 @@ public class BasicXmlValidator implements XmlValidator {
 			if (tempTag.startsWith("/")) {// tempTags is a closing tag
 				tempTag = tempTag.replaceFirst("/", "");
 				if (tagStack.getCount() == 0) {// stack is empty "Orphan"
-
 					error.add("Orphan closing tag");
 					error.add(tempTag);
 					error.add(Integer.toString(getLine(xmlDocument, m.start())));
@@ -42,7 +41,6 @@ public class BasicXmlValidator implements XmlValidator {
 					String attributeName = substringBetween(tempTag, " ", "=");
 					String attribute = substringAfter(tempTag, "=");
 					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
-
 						error.add("Attribute not quoted");
 						error.add(substringBefore(tempTag, " "));
 						error.add(Integer.toString(getLine(xmlDocument, m.start())));
@@ -57,7 +55,6 @@ public class BasicXmlValidator implements XmlValidator {
 			}
 		}
 		if (tagStack.getCount() > 0) {// reached end of document, stack is not empty
-
 			error.add("Unclosed tag at end");
 			error.add(tagStack.peek(0).name);
 			error.add(Integer.toString(getLine(xmlDocument, tagStack.peek(0).index)));
