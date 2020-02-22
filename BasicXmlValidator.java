@@ -36,23 +36,22 @@ public class BasicXmlValidator implements XmlValidator {
 				error.add(tempTag);
 				error.add(Integer.toString(getLine(xmlDocument, m.start())));
 				return error;
-			} else {
-				if (tempTag.contains("=")) { // opening tag has an attribute
-					String attributeName = substringBetween(tempTag, " ", "=");
-					String attribute = substringAfter(tempTag, "=");
-					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
-						error.add("Attribute not quoted");
-						error.add(substringBefore(tempTag, " "));
-						error.add(Integer.toString(getLine(xmlDocument, m.start())));
-						error.add(attributeName);
-						error.add(Integer.toString(getLine(xmlDocument, m.end())));
-						return error;
-					}
-					tempTag = substringBetween(tempTag, "", " ");// remove the attributes from the tag
-				}
-				tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
-				continue;
 			}
+			if (tempTag.contains("=")) { // opening tag has an attribute
+				String attributeName = substringBetween(tempTag, " ", "=");
+				String attribute = substringAfter(tempTag, "=");
+				if (!attribute.startsWith("\"")) {// attribute does not start with quotes
+					error.add("Attribute not quoted");
+					error.add(substringBefore(tempTag, " "));
+					error.add(Integer.toString(getLine(xmlDocument, m.start())));
+					error.add(attributeName);
+					error.add(Integer.toString(getLine(xmlDocument, m.end())));
+					return error;
+				}
+				tempTag = substringBetween(tempTag, "", " ");// remove the attributes from the tag
+			}
+			tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
+
 		}
 		if (tagStack.getCount() > 0) {// reached end of document, stack is not empty
 			error.add("Unclosed tag at end");
