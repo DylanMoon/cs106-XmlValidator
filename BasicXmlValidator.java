@@ -16,10 +16,10 @@ public class BasicXmlValidator implements XmlValidator {
 		var p = Pattern.compile("(</?)[a-zA-Z0-9\". =#/]*?[^/>]>");
 		var m = p.matcher(xmlDocument);
 		while (m.find()) {
-			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match
-			if (tempTag.startsWith("/")) {// tempTags is a valid opening tag
+			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match and remove <>
+			if (tempTag.startsWith("/")) {// tempTags is a closing tag
 				tempTag = tempTag.replaceAll("/", "");
-				if (tagStack.getCount() == 0) {// found closing tag but stack is empty
+				if (tagStack.getCount() == 0) {// stack is empty "Orphan"
 
 					error.add("Orphan closing tag");
 					error.add(tempTag);
@@ -38,7 +38,7 @@ public class BasicXmlValidator implements XmlValidator {
 				error.add(Integer.toString(getLine(xmlDocument, m.start())));
 				return error;
 			} else {
-				if (tempTag.contains("=")) {
+				if (tempTag.contains("=")) { // opening tag has an attribute
 					String attributeName = substringBetween(tempTag, " ", "=");
 					String attribute = substringAfter(tempTag, "=");
 					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
@@ -50,7 +50,7 @@ public class BasicXmlValidator implements XmlValidator {
 						error.add(Integer.toString(getLine(xmlDocument, m.end())));
 						return error;
 					}
-					tempTag = substringBetween(tempTag, "", " ");// clean up the tag
+					tempTag = substringBetween(tempTag, "", " ");// remove the attributes from the tag
 				}
 				tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
 				continue;
@@ -63,7 +63,7 @@ public class BasicXmlValidator implements XmlValidator {
 			error.add(Integer.toString(getLine(xmlDocument, tagStack.peek(0).index)));
 			return error;
 		}
-		return null;// if no errors found
+		return null;// no errors found
 	}
 
 
