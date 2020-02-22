@@ -17,24 +17,7 @@ public class BasicXmlValidator implements XmlValidator {
 		var m = p.matcher(xmlDocument);
 		while (m.find()) {
 			String tempTag = m.group().replaceAll("[<>]", "");// set tempTag to the current match
-			if (!tempTag.startsWith("/")) {// tempTags is a valid opening tag
-				if (tempTag.contains("=")) {
-					String attributeName = substringBetween(tempTag, " ", "=");
-					String attribute = substringAfter(tempTag, "=");
-					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
-
-						error.add("Attribute not quoted");
-						error.add(substringBefore(tempTag, " "));
-						error.add(Integer.toString(getLine(xmlDocument, m.start())));
-						error.add(attributeName);
-						error.add(Integer.toString(getLine(xmlDocument, m.end())));
-						return error;
-					}
-					tempTag = substringBetween(tempTag, "", " ");// clean up the tag
-				}
-				tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
-				continue;
-			} else {
+			if (tempTag.startsWith("/")) {// tempTags is a valid opening tag
 				tempTag = tempTag.replaceAll("/", "");
 				if (tagStack.getCount() == 0) {// found closing tag but stack is empty
 
@@ -54,6 +37,23 @@ public class BasicXmlValidator implements XmlValidator {
 				error.add(tempTag);
 				error.add(Integer.toString(getLine(xmlDocument, m.start())));
 				return error;
+			} else {
+				if (tempTag.contains("=")) {
+					String attributeName = substringBetween(tempTag, " ", "=");
+					String attribute = substringAfter(tempTag, "=");
+					if (!attribute.startsWith("\"")) {// attribute does not start with quotes
+
+						error.add("Attribute not quoted");
+						error.add(substringBefore(tempTag, " "));
+						error.add(Integer.toString(getLine(xmlDocument, m.start())));
+						error.add(attributeName);
+						error.add(Integer.toString(getLine(xmlDocument, m.end())));
+						return error;
+					}
+					tempTag = substringBetween(tempTag, "", " ");// clean up the tag
+				}
+				tagStack.push(new XmlTag(tempTag, m.start()));// opening tag, push to stack
+				continue;
 			}
 		}
 		if (tagStack.getCount() > 0) {// reached end of document, stack is not empty
